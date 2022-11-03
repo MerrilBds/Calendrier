@@ -5,14 +5,16 @@ let clicked = null;
 //variable événements : initialisation d'un tableau vide dont les données seront stockées.
 let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
 //variable weekdays : initialisation de la variable semaineJour regroupant un tableau de caractères représentant les jour de la semaines
-const weekdays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 //variable calendar : récupère la valeur de l'ID calendar
 const calendar = document.getElementById('calendar');
 
 //fonction qui récupère la date et l'heure actuelle .
 function load(){
-    //invocation du constructeur New Date() qui renvoi un objet Date.
     const dt = new Date();
+    if (nav !== 0) {
+      dt.setMonth(new Date().getMonth() + nav);
+    }
     //récupère le jour courant du mois(en temps local)
     const day = dt.getDate();
     //récupère le mois courant (en temps local)
@@ -24,22 +26,21 @@ function load(){
     //invocation du constucteur New Date() qui renvoi le dernier jour   du mois de l'année courante.
     const daysInMonth = new Date(year,month + 1, 0).getDate();
     //affiche le premier jour du mois de l'année courante
-    const dateString = firstDayOfMonth.toLocaleDateString('fr-fr', {
+    const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
         weekday: 'long',
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',
       });
-      console.log(dateString)
     // variable paddingDays qui retourne le nombre de jour dans une semaine sans compter les weekend
     const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
 
     document.getElementById('monthDisplay').innerText = 
-    `${dt.toLocaleDateString('fr-fr', { month: 'long' })} ${year}`;
+    `${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
 
   calendar.innerHTML = '';
 
-     
+    //parcours le calendrier pour afficher le chiffre exacte à son jour correspondant en fonction du mois 
     for(let i =1; i <= paddingDays + daysInMonth; i++){
         const daySquare = document.createElement('div');
         daySquare.classList.add('day');
@@ -54,5 +55,17 @@ function load(){
           calendar.appendChild(daySquare);
         }
     }
+    function initButtons() {
+        document.getElementById('nextButton').addEventListener('click', () => {
+          nav++;
+          load();
+        });
+      
+        document.getElementById('backButton').addEventListener('click', () => {
+          nav--;
+          load();
+        });
+    }
 //appelle la fonction load
 load();
+initButtons();
