@@ -19,9 +19,11 @@ function load(){
     const month = dt.getMonth();
     //récupère l'année courante (en temps local)
     const  year= dt.getFullYear();
-    //invocation du constucteur New Date() qui renvoi les jours compris dans un mois de l'année .
+    //invocation du constructeur New Date() qui renvoi le premier jour dans 
+    const firstDayOfMonth = new Date(year,month,1);
+    //invocation du constucteur New Date() qui renvoi le dernier jour   dans un mois de l'année .
     const daysInMonth = new Date(year,month+1,0).getDate();
-    console.log(daysInMonth);
+    
 
 }
 //appelle la fonction load
