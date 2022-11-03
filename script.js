@@ -23,8 +23,9 @@ function load(){
     const firstDayOfMonth = new Date(year,month,1);
     //invocation du constucteur New Date() qui renvoi le dernier jour   dans un mois de l'année .
     const daysInMonth = new Date(year,month+1,0).getDate();
-    
-
+    //affiche la date locale en format français de France
+    const dateString = firstDayOfMonth.toLocaleDateString('fr-Fr' , )
+    console.log(dateString);
 }
 //appelle la fonction load
 load();
