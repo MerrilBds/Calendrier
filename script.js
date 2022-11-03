@@ -24,17 +24,18 @@ function load(){
     //invocation du constucteur New Date() qui renvoi le dernier jour   du mois de l'année courante.
     const daysInMonth = new Date(year,month + 1, 0).getDate();
     //affiche le premier jour du mois de l'année courante
-    const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
+    const dateString = firstDayOfMonth.toLocaleDateString('fr-fr', {
         weekday: 'long',
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',
       });
+      console.log(dateString)
     // variable paddingDays qui retourne le nombre de jour dans une semaine sans compter les weekend
     const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
-    
+
     document.getElementById('monthDisplay').innerText = 
-    `${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
+    `${dt.toLocaleDateString('fr-fr', { month: 'long' })} ${year}`;
 
   calendar.innerHTML = '';
 
