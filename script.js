@@ -22,6 +22,7 @@ const eventTitleInput = document.getElementById('eventTitleInput');
 function load(){
     const dt = new Date();
     if (nav !== 0) {
+      dt.setDate(1) ;
       dt.setMonth(new Date().getMonth() + nav);
     }
     //récupère le jour courant du mois(en temps local)
