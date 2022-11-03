@@ -8,6 +8,15 @@ let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('e
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 //variable calendar : récupère la valeur de l'ID calendar
 const calendar = document.getElementById('calendar');
+//variable newEventModal : récupère la valeur de l'ID newEventModal.
+const newEventModal = document.getElementById('newEventModal');
+//variable deleteEventModal : récupère la valeur de l'ID deleteEventModal.
+const deleteEventModal = document.getElementById('deleteEventModal');
+//variable backDrop : récupère la valeur de l'ID modalBackDrop.'
+const backDrop = document.getElementById('modalBackDrop');
+//variable eventTitleInput : récupère la valeur de l'ID eventTitleInput'.
+const eventTitleInput = document.getElementById('eventTitleInput');
+
 
 //fonction qui récupère la date et l'heure actuelle .
 function load(){
@@ -55,6 +64,24 @@ function load(){
           calendar.appendChild(daySquare);
         }
     }
+
+    //fonction qui rentre pour arguments la date qui lie la date à son évènements
+    function openModal(date) {
+        clicked = date;
+      
+        const eventForDay = events.find(e => e.date === clicked);
+      
+        if (eventForDay) {
+          document.getElementById('eventText').innerText = eventForDay.title;
+          deleteEventModal.style.display = 'block';
+        } else {
+          newEventModal.style.display = 'block';
+        }
+      
+        backDrop.style.display = 'block';
+      }
+
+    //fonction qui instancie les boutons back et next
     function initButtons() {
         document.getElementById('nextButton').addEventListener('click', () => {
           nav++;
