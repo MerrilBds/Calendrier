@@ -14,18 +14,23 @@ function load(){
     //invocation du constructeur New Date() qui renvoi un objet Date.
     const dt = new Date();
     //récupère le jour courant du mois(en temps local)
-    const day= dt.getDate();
+    const day = dt.getDate();
     //récupère le mois courant (en temps local)
     const month = dt.getMonth();
     //récupère l'année courante (en temps local)
     const  year= dt.getFullYear();
-    //invocation du constructeur New Date() qui renvoi le premier jour dans 
-    const firstDayOfMonth = new Date(year,month,1);
-    //invocation du constucteur New Date() qui renvoi le dernier jour   dans un mois de l'année .
-    const daysInMonth = new Date(year,month+1,0).getDate();
-    //affiche la date locale en format français de France
-    const dateString = firstDayOfMonth.toLocaleDateString('fr-Fr' , )
-    console.log(dateString);
+    //invocation du constructeur New Date() qui renvoi le premier jour du mois de l'année courante
+    const firstDayOfMonth = new Date(year, month, 1);
+    //invocation du constucteur New Date() qui renvoi le dernier jour   du mois de l'année courante.
+    const daysInMonth = new Date(year,month + 1, 0).getDate();
+    //affiche le premier jour du mois de l'année courante
+    const dateString = firstDayOfMonth.toLocaleDateString('fr-FR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      });
+console.log(dateString);
 }
 //appelle la fonction load
 load();
