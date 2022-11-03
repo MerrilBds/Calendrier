@@ -50,19 +50,34 @@ function load(){
   calendar.innerHTML = '';
 
     //parcours le calendrier pour afficher le chiffre exacte à son jour correspondant en fonction du mois 
-    for(let i =1; i <= paddingDays + daysInMonth; i++){
+    for(let i = 1; i <= paddingDays + daysInMonth; i++) {
         const daySquare = document.createElement('div');
         daySquare.classList.add('day');
-
-        if(i > paddingDays){
-            daySquare.innerText = i - paddingDays;
-
-            daySquare.addEventListener('click', () => console.log('click'));
-        }else{
-            daySquare.classList.add('padding');
+    
+        const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+    
+        if (i > paddingDays) {
+          daySquare.innerText = i - paddingDays;
+          const eventForDay = events.find(e => e.date === dayString);
+    
+          if (i - paddingDays === day && nav === 0) {
+            daySquare.id = 'currentDay';
+          }
+    
+          if (eventForDay) {
+            const eventDiv = document.createElement('div');
+            eventDiv.classList.add('event');
+            eventDiv.innerText = eventForDay.title;
+            daySquare.appendChild(eventDiv);
+          }
+    
+          daySquare.addEventListener('click', () => openModal(dayString));
+        } else {
+          daySquare.classList.add('padding');
         }
-          calendar.appendChild(daySquare);
-        }
+    
+        calendar.appendChild(daySquare);    
+      }
     }
 
     //fonction qui rentre pour arguments la date qui lie la date à son évènements
@@ -81,8 +96,40 @@ function load(){
         backDrop.style.display = 'block';
       }
 
-    //fonction qui instancie les boutons back et next
-    function initButtons() {
+    function closeModal() {
+        eventTitleInput.classList.remove('error');
+        newEventModal.style.display = 'none';
+        deleteEventModal.style.display = 'none';
+        backDrop.style.display = 'none';
+        eventTitleInput.value = '';
+        clicked = null;
+        load();
+      }
+      //fonction qui sauvegarde la valeur des événements
+      function saveEvent() {
+        if (eventTitleInput.value) {
+          eventTitleInput.classList.remove('error');
+      
+          events.push({
+            date: clicked,
+            title: eventTitleInput.value,
+          });
+      
+          localStorage.setItem('events', JSON.stringify(events));
+          closeModal();
+        } else {
+          eventTitleInput.classList.add('error');
+        }
+      }
+      //fonction qui supprime l'évènement
+      function deleteEvent() {
+        events = events.filter(e => e.date !== clicked);
+        localStorage.setItem('events', JSON.stringify(events));
+        closeModal();
+      }
+
+       //fonction qui instancie les boutons back et next
+       function initButtons() {
         document.getElementById('nextButton').addEventListener('click', () => {
           nav++;
           load();
@@ -92,7 +139,13 @@ function load(){
           nav--;
           load();
         });
-    }
+      
+        document.getElementById('saveButton').addEventListener('click', saveEvent);
+        document.getElementById('cancelButton').addEventListener('click', closeModal);
+        document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+        document.getElementById('closeButton').addEventListener('click', closeModal);
+      }
+   
 //appelle la fonction load
 load();
 initButtons();
